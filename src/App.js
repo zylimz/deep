@@ -17,7 +17,7 @@ function App() {
               <li><Link to="/">Home</Link></li>
               <li><Link to="/team">Team</Link></li>
               <li><Link to="/admin">Admin Updates</Link></li>
-              <li><Link to="/marketing">Marketing</Link></li>
+              <li><Link to="/marketing">Project Overview</Link></li>
             </ul>
           </nav>
         </header>

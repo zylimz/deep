@@ -10,11 +10,11 @@ function Marketing() {
   return (
     <Container maxWidth="md" sx={{ mt: 5 }}>
       <Typography variant="h3" gutterBottom align="center">
-        Marketing & USP
+        Project Overview
       </Typography>
 
       <Typography variant="h6" align="center" color="textSecondary" gutterBottom>
-        Discover how DeepPurple sets itself apart from competitors and boosts business performance.
+      A revolutionary text analysis software that deciphers the emotions and intentions behind client communications.
       </Typography>
 
       <Grid container spacing={4} sx={{ mt: 2 }}>
