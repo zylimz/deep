@@ -13,9 +13,14 @@ function Marketing() {
         Project Overview
       </Typography>
 
-      <Typography variant="h6" align="center" color="textSecondary" gutterBottom>
+      <Typography 
+      variant="h6" 
+      align="center" 
+      style={{ color: 'white' }} 
+      gutterBottom>
       A revolutionary text analysis software that deciphers the emotions and intentions behind client communications.
       </Typography>
+
 
       <Grid container spacing={4} sx={{ mt: 2 }}>
         <Grid item xs={12} sm={6}>
