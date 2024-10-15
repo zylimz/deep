@@ -3,9 +3,14 @@ import AWS from 'aws-sdk';
 import './Admin.css';
 import { 
   Box, Button, TextField, Select, MenuItem, Typography, Container, 
-  List, ListItem, ListItemIcon, ListItemText, Divider 
+  List, ListItem, ListItemIcon, ListItemText, Divider, CircularProgress 
 } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+
+const accessKeyId = process.env.REACT_APP_ACCESS_KEY_ID;
+const secretAccessKey = process.env.REACT_APP_SECRET_ACCESS_KEY;
+const region = process.env.REACT_APP_REGION;
+const bucketName = process.env.REACT_APP_BUCKET_NAME;
 
 function Admin() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -15,27 +20,32 @@ function Admin() {
     'project-schedules': [],
     'diaries': [],
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   AWS.config.update({
-    accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-    secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
-    region: process.env.REACT_APP_REGION,
+    region: region,
+    accessKeyId: accessKeyId,
+    secretAccessKey: secretAccessKey,
   });
 
-  const s3 = new AWS.S3({ params: { Bucket: process.env.REACT_APP_BUCKET_NAME } });
+  const s3 = new AWS.S3();
 
   // Function to fetch files from S3 for a specific category
   const fetchFiles = (category) => {
+    setLoading(true); // Set loading state
     const params = {
-      Bucket: process.env.REACT_APP_BUCKET_NAME,
+      Bucket: bucketName,
       Prefix: `${category}/`,
     };
 
     s3.listObjectsV2(params, (err, data) => {
+      setLoading(false); // Reset loading state
       if (err) {
+        setError(err.message); // Set error message
         console.error('Error fetching files:', err);
       } else {
-        const fileUrls = data.Contents.map((file) => `https://${process.env.REACT_APP_BUCKET_NAME}.s3.${process.env.REACT_APP_REGION}.amazonaws.com/${file.Key}`);
+        const fileUrls = data.Contents.map((file) => `https://${bucketName}.s3.${region}.amazonaws.com/${file.Key}`);
         setUploadedFiles((prevFiles) => ({
           ...prevFiles,
           [category]: fileUrls,
@@ -56,14 +66,18 @@ function Admin() {
     if (!selectedFile) return alert('Please select a file to upload.');
 
     const params = {
-      Bucket: process.env.REACT_APP_BUCKET_NAME,
+      Bucket: bucketName,
       Key: `${category}/${selectedFile.name}`,
       Body: selectedFile,
     };
 
+    setLoading(true); // Set loading state
     s3.upload(params, (err, data) => {
-      if (err) console.error('Error uploading file:', err);
-      else {
+      setLoading(false); // Reset loading state
+      if (err) {
+        setError(err.message); // Set error message
+        console.error('Error uploading file:', err);
+      } else {
         alert('File uploaded successfully!');
         fetchFiles(category); // Refresh the file list after upload
       }
@@ -73,7 +87,9 @@ function Admin() {
   return (
     <Container maxWidth="md" sx={{ mt: 5 }}>
       <Typography variant="h4" gutterBottom>Administrative Updates</Typography>
-
+      {loading && <CircularProgress />}
+      {error && <Typography color="error">{error}</Typography>}
+      
       <Box sx={{ mb: 3 }}>
         <Select
           value={category}
@@ -100,6 +116,7 @@ function Admin() {
           onClick={handleUpload}
           fullWidth
           startIcon={<UploadFileIcon />}
+          disabled={loading} // Disable button while loading
         >
           Upload
         </Button>
