@@ -128,25 +128,26 @@ function Admin() {
 
       <List>
         {['meeting-minutes', 'project-schedules', 'diaries'].map((cat) => (
-          <Box key={cat} sx={{ mb: 2 }}>
-            <Typography variant="h6">{cat.replace('-', ' ')}</Typography>
-            {uploadedFiles[cat].length > 0 ? (
-              uploadedFiles[cat].map((fileUrl, index) => (
+            <Box key={cat} sx={{ mb: 2 }}>
+              <Typography variant="h6">{cat.replace('-', ' ')}</Typography>
+              {uploadedFiles[cat].length > 0 ? (
+                uploadedFiles[cat].map((fileUrl, index) => (
                 <ListItem key={index} button component="a" href={fileUrl} target="_blank">
-                  <ListItemIcon>
-                    <UploadFileIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={fileUrl.split('/').pop()} />
-                </ListItem>
-              ))
-            ) : (
-              <Typography variant="body2" color="textSecondary">
-                No files uploaded yet.
-              </Typography>
+                <ListItemIcon>
+                  <UploadFileIcon />
+                </ListItemIcon>
+                <ListItemText primary={fileUrl.split('/').pop()} className="uploaded-file-text" /> {/* Apply the new class */}
+              </ListItem>
+            ))
+        ) : (
+            <Typography variant="body2" color="textSecondary">
+              No files uploaded yet.
+            </Typography>
             )}
-          </Box>
-        ))}
-      </List>
+            </Box>
+         ))}
+        </List>
+
     </Container>
   );
 }

@@ -14,4 +14,6 @@ body {
   button {
     margin-top: 15px;
   }
-  
+  .uploaded-file-text {
+    color: white; /* Change text color to white */
+  }
