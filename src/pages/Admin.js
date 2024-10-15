@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AWS from 'aws-sdk';
 import './Admin.css';
 import { 
@@ -24,6 +24,31 @@ function Admin() {
 
   const s3 = new AWS.S3({ params: { Bucket: process.env.REACT_APP_BUCKET_NAME } });
 
+  // Function to fetch files from S3 for a specific category
+  const fetchFiles = (category) => {
+    const params = {
+      Bucket: process.env.REACT_APP_BUCKET_NAME,
+      Prefix: `${category}/`,
+    };
+
+    s3.listObjectsV2(params, (err, data) => {
+      if (err) {
+        console.error('Error fetching files:', err);
+      } else {
+        const fileUrls = data.Contents.map((file) => `https://${process.env.REACT_APP_BUCKET_NAME}.s3.${process.env.REACT_APP_REGION}.amazonaws.com/${file.Key}`);
+        setUploadedFiles((prevFiles) => ({
+          ...prevFiles,
+          [category]: fileUrls,
+        }));
+      }
+    });
+  };
+
+  // Fetch files when the component loads
+  useEffect(() => {
+    ['meeting-minutes', 'project-schedules', 'diaries'].forEach((cat) => fetchFiles(cat));
+  }, []);
+
   const handleFileChange = (event) => setSelectedFile(event.target.files[0]);
   const handleCategoryChange = (event) => setCategory(event.target.value);
 
@@ -40,10 +65,7 @@ function Admin() {
       if (err) console.error('Error uploading file:', err);
       else {
         alert('File uploaded successfully!');
-        setUploadedFiles((prevFiles) => ({
-          ...prevFiles,
-          [category]: [...prevFiles[category], data.Location],
-        }));
+        fetchFiles(category); // Refresh the file list after upload
       }
     });
   };
