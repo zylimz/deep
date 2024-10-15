@@ -97,6 +97,7 @@ function Admin() {
           fullWidth
           variant="outlined"
           sx={{ mb: 2 }}
+          style={{ color: 'white' }} 
         >
           <MenuItem value="meeting-minutes">Meeting Minutes</MenuItem>
           <MenuItem value="project-schedules">Project Schedule</MenuItem>
