@@ -32,12 +32,13 @@ function Team() {
                 <Typography variant="h5" component="div" gutterBottom>
                   {member.name}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant="subtitle1" color="primary" sx={{ fontWeight: 'bold' }}>
                   {member.role}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant="body2" color="textSecondary" sx={{ mt: 1, fontStyle: 'italic' }}>
                   {member.description}
                 </Typography>
+
               </CardContent>
             </Card>
           </Grid>
