@@ -19,6 +19,7 @@ function Admin() {
     'meeting-minutes': [],
     'project-schedules': [],
     'diaries': [],
+    'other-documents': [],
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -56,7 +57,7 @@ function Admin() {
 
   // Fetch files when the component loads
   useEffect(() => {
-    ['meeting-minutes', 'project-schedules', 'diaries'].forEach((cat) => fetchFiles(cat));
+    ['meeting-minutes', 'project-schedules', 'diaries', 'other-documents'].forEach((cat) => fetchFiles(cat));
   }, []);
 
   const handleFileChange = (event) => setSelectedFile(event.target.files[0]);
@@ -102,6 +103,7 @@ function Admin() {
           <MenuItem value="meeting-minutes">Meeting Minutes</MenuItem>
           <MenuItem value="project-schedules">Project Schedule</MenuItem>
           <MenuItem value="diaries">Individual Reflective Diaries</MenuItem>
+          <MenuItem value="other-documents">Other Documents</MenuItem>
         </Select>
 
         <TextField
@@ -128,7 +130,7 @@ function Admin() {
       <Typography variant="h5" gutterBottom>Uploaded Files</Typography>
 
       <List>
-        {['meeting-minutes', 'project-schedules', 'diaries'].map((cat) => (
+        {['meeting-minutes', 'project-schedules', 'diaries', 'other-documents'].map((cat) => (
             <Box key={cat} sx={{ mb: 2 }}>
               <Typography variant="h6">{cat.replace('-', ' ')}</Typography>
               {uploadedFiles[cat].length > 0 ? (

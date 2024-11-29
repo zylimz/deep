@@ -6,11 +6,11 @@ import './Team.css';
 
 // Sample data for team members
 const teamMembers = [
-  { name: 'Ong Yu Yang', role: 'Project Manager' },
-  { name: 'Pang Thong Yi Justin', role: 'Team Member' },
-  { name: 'Lim Zhi Yew', role: 'Team Member' },
-  { name: 'Hau Bin Hui', role: 'Team Member' },
-  { name: 'Lim Wei Hao', role: 'Team Member' },
+  { name: 'Ong Yu Yang', role: 'Project Manager', description: 'Oversees project management, timelines, risk, stakeholder communication, and team coordination.' },
+  { name: 'Pang Thong Yi Justin', role: 'Frontend Developer', description: 'Designs and develops the user interface using React, ensuring a responsive and user-friendly experience' },
+  { name: 'Lim Zhi Yew', role: 'Cloud Engineer', description: 'Manages the cloud infrastructure (AWS Lambda, RDS, Amplify, Elastic Beanstalk),ensuring scalability and security.' },
+  { name: 'Hau Bin Hui', role: 'Backend Developer', description: 'Develops the server-side logic and APIs using Spring Boot, ensuring communication with AI and frontend.' },
+  { name: 'Lim Wei Hao', role: 'AI/NLP Specialist', description: 'Integrates and configures the GPT-4 AI model for emotion detection and ensures accuracy in text analysis.' },
 ];
 
 function Team() {
@@ -34,6 +34,9 @@ function Team() {
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   {member.role}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {member.description}
                 </Typography>
               </CardContent>
             </Card>
